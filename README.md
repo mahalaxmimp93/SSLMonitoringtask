@@ -45,16 +45,11 @@ This automation solves that problem proactively.
         ↓
 Alert Sent if Expiring
 
-4. Technology Used:
-Tool	                  Why Needed
-Linux	               Run automation
-Python	          Write monitoring script
-OpenSSL	           Read certificate
-Cron	             Schedule automation
-Git	                Store project
-AWS EC2	            Host project
+4. Technology Used:	 
+Linux for Run automation, Python for Write monitoring script, OpenSSL to Read certificate,Cron to Schedule automation, Git to Store project and AWS EC2 for Host project
 
-5. Steps involved in automation 
+5. Project implementation 
+
 STEP 1 — Create Linux Server
 Create Ubuntu server in Amazon Web Services.
 Recommended:
@@ -63,10 +58,12 @@ Recommended:
 •	8 GB storage 
 ________________________________________
 STEP 2 — Connect to Server
+
 From terminal:
 ssh -i mykey.pem ubuntu@public-ip
 ________________________________________
 STEP 3 — Install Required Packages
+
 Run:
 sudo apt update
 
@@ -79,32 +76,40 @@ openssl version-OpenSSL 3.5.5 27 Jan 2026 (Library: OpenSSL 3.5.5 27 Jan 2026)
 
 ________________________________________
 STEP 4 — Check SSL Manually
+
 Run:
 echo | openssl s_client -connect google.com:443 \
 -servername google.com 2>/dev/null \
 | openssl x509 -noout -dates
+
 Output:
 notBefore=Apr 20 08:35:05 2026 GMT
 notAfter=Jul 13 08:35:04 2026 GMT
+
 Important
 notAfter = expiry date
 ________________________________________
 STEP 5 — Create Project Folder
+
 mkdir ssl-monitor-project
 cd ssl-monitor-project
 ________________________________________
 STEP 6 — Add Multiple Websites
+
 Create:vi domains.txt
+
 Add:
 google.com
 github.com
 amazon.com
 ________________________________________
 STEP 7 — Create Python Script to moniter SSL certificates and warning if expiry date is near
+
 Create file:
 vi ssl_monitor.py
 
 write Python Script.
+
 import ssl
 import socket
 from datetime import datetime
@@ -164,11 +169,14 @@ ________________________________________
 Run this script:
 python3 ssl_monitor.py
 
-Output: OK: google.com certificate is healthy (54 days left)
+Output: 
+
+OK: google.com certificate is healthy (54 days left)
 OK: github.com certificate is healthy (75 days left)
 OK: amazon.com certificate is healthy (183 days left)
 ________________________________________
 STEP 8 — Automate Using Cron
+
 Open cron:
 crontab -e
 Select Nano option 
@@ -187,8 +195,10 @@ Check logs:
 cat /home/ubuntu/ssl.log
 ________________________________________
 STEP 10— Push Project to GitHub
+
 Create repository in GitHub.
-Initialize git:
+
+Initialize git: 
 git init
 
 Add files:
