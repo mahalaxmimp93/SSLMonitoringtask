@@ -114,12 +114,16 @@ vi ssl_monitor.py
 
 write Python Script.
 
+
 import ssl
+
 import socket
+
 from datetime import datetime
 
 with open("domains.txt") as file:
-    domains = file.readlines()
+    d
+    omains = file.readlines()
 
 for domain in domains:
     
